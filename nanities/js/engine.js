@@ -1,6 +1,3 @@
-document.write("<script type='text/javascript' src='js/entities.js'></script>");
-document.write("<script type='text/javascript' src='js/testing.js'></script>");
-
 // The Playgound as an two-dimensional Array of Objects / Arrays of Objects
 var matrix = new Array;
 for (var x=0;x<10;x++) {
@@ -10,14 +7,8 @@ for (var x=0;x<10;x++) {
 	}
 }
 
-// The future Event Loop. Here it just acts like a main() function
-// and shouldn't be looped.
+// The Event Loop as central unit. It controls model&view and deals
+// with communication of ingame-objects.
 function evLoop() {
-
-	// Test some cells:
-	matrix[1][1] = new Entity(true);
-	matrix[4][4] = new Actor("Otto","opponent");
-	inspectMatrix(0,0,matrix[0][0]);
-	inspectMatrix(1,1,matrix[1][1]);
-	inspectMatrix(4,4,matrix[4][4]);	
+	// let's wait for events and respond to them.	
 }
