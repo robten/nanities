@@ -1,6 +1,6 @@
 var FieldWidth = 100;
 var FieldHeight = 100;
-var StartposX = Math.floor(FieldWidth/2);		//abrunden
+var StartposX = Math.floor(FieldWidth/2);	//abrunden
 var StartposY = Math.floor(FieldHeight/2);	//abrunden
 var OUR_MAIN_PLAYGROUND_ARRAY;
 InitDeposits("iron", 0.1, 0.3, 20, 1, 5, 0.5);
@@ -33,13 +33,10 @@ function AvailableForResource(radiusMin, radiusMax, offset)
 {
 	var Available = new Array();
 	var distance;
-	for (var i = (StartposX - radiusMax) ; i <= (StartposX + radiusMax) ; i++)
-	{
-		for (var j = (StartposY - radiusMax) ; j <= (StartposY + radiusMax) ; j++)
-		{
+	for (var i = (StartposX - radiusMax) ; i <= (StartposX + radiusMax) ; i++) {
+		for (var j = (StartposY - radiusMax) ; j <= (StartposY + radiusMax) ; j++) {
 			distance = Math.sqrt((i-StartposX)*(i-StartposX) + (j-StartposY)*(j-StartposY)); //euclid
-			if (distance > (radiusMin+offset) && distance < (radiusMax+offset))
-			{
+			if (distance > (radiusMin+offset) && distance < (radiusMax+offset)) {
 				Available.push([i,j]);
 			}
 		}
@@ -56,15 +53,12 @@ function CreateDeposits(OptionalFieldsArray, resourceType, resourceAmount)
 	var resourceField = new Array();
 	var exist = false;
     var random;
-    for (var i=0;i<resourceAmount;)
-    {
+    for (var i=0;i<resourceAmount;) {
 		random=Math.floor(Math.random()*(OptionalFieldsArray.length));
-		for (var j=0;j<resourceAmount;j++)
-		{
+		for (var j=0;j<resourceAmount;j++) {
 			if (resourceField[j] == random) exist = true; 
 		}
-		if (!exist) 
-		{
+		if (!exist) {
 			resourceField[i]=random;
 			i++;
 		}
