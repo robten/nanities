@@ -1,4 +1,4 @@
-var Entities = {
+var entities = {
 
 	// The future base class for all objects (rudimentary)
 	Entity: function(passable) {
@@ -6,7 +6,7 @@ var Entities = {
 	},
 
 	Actor: function(caption, type) {
-		Entities.Entity.call(this, false);
+		entities.Entity.call(this, false);
 		this.name = caption || "default Actor";
 		this.type = type || "actor";
 		this.behaviourLoop = function behaviourLoop() {
@@ -16,4 +16,4 @@ var Entities = {
 
 };
 
-Entities.Actor.prototype = new Entities.Entity();
+entities.Actor.prototype = new entities.Entity();
