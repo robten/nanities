@@ -16,9 +16,9 @@ var engine = (function() {
 		setCell: function(x, y, content) {
 			matrix[x][y] = content;
 		},
-		// The Event Loop as central unit. It controls model&view and deals
+		// Start the Event Loop as central unit. It controls model&view and deals
 		// with communication of ingame-objects.
-		evLoop: function() {
+		exec: function() {
 			// let's wait for events and respond to them.	
 		}
 	}
