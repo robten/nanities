@@ -1,14 +1,19 @@
-// The future base class for all objects (rudimentary)
-function Entity(passable) {
-	this.isPassable = Boolean(passable) || false;
-}
+var entities = {
 
-function Actor(caption, type) {
-	Entity.call(this, false);
-	this.name = caption || "default Actor";
-	this.type = type || "actor";
-	this.behaviourLoop = function behaviourLoop() {
-		// Input-Output for behaviour strategies
+	// The future base class for all objects (rudimentary)
+	Entity: function(passable) {
+		this.isPassable = Boolean(passable) || false;
+	},
+
+	Actor: function(caption, type) {
+		entities.Entity.call(this, false);
+		this.name = caption || "default Actor";
+		this.type = type || "actor";
+		this.behaviourLoop = function behaviourLoop() {
+			// Input-Output for behaviour strategies
+		}
 	}
-}
-Actor.prototype = new Entity;
+
+};
+
+entities.Actor.prototype = new entities.Entity();
