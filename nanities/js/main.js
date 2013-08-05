@@ -17,7 +17,7 @@ inspectMatrix(1,1);
 inspectMatrix(4,4);
 
 // Test for cells outside of dimension (returns an error if invalid)
-//inspectMatrix(10,10);
+inspectMatrix(10,10);	// should be an invalid call..
 inspectMatrix(22,12);
 inspectMatrix(2,11);
 inspectMatrix(11,4);

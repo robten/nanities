@@ -5,7 +5,7 @@ var engine = (function() {
 	var isInit = false;
 
 	function isValid(x, y) {
-		if (isInit && x <= dim.x && y <= dim.y)
+		if (isInit && x <= (dim.x -1) && y <= (dim.y -1))
 			return true;
 		else
 			return false;
