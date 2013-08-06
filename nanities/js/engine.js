@@ -3,6 +3,7 @@ var engine = (function() {
 	var dim = {x: 0, y: 0};	// dimensions of the matrix
 	var matrix = new Array;	// data structure as a 2-dimensional array
 	var isInit = false;
+	var agentList = new Array;			// list of added agent objects, processed in the event loop
 
 	function isValid(x, y) {
 		if (isInit && x <= (dim.x -1) && y <= (dim.y -1))
@@ -12,6 +13,7 @@ var engine = (function() {
 	}
 	
 	return {
+
 		init: function(width, height) {
 			dim.x = width;
 			dim.y = height;
@@ -34,7 +36,6 @@ var engine = (function() {
 
 		cell: function(x, y) {
 			if (isValid(x, y) ) {
-				console.log(isInit);
 				return matrix[x][y];
 			} else {
 				console.log("invalid index for ",x,",",y)
@@ -49,6 +50,22 @@ var engine = (function() {
 			} else {
 				console.log("invalid index for ",x,",",y)
 				return false;
+			}
+		},
+
+		addAgent: function(agent) {
+			if (Object.prototype.toString.call(agent) === "[object Array]") {
+				for (var element of agent) {
+					if (element instanceof entities.Actor) {
+						agentList.push(element);
+						console.log("Agent added from Array:", element);
+					}
+				}
+			} else if (agent instanceof entities.Actor) {
+				agentList.push(agent);
+				console.log("Agent added:", agent);
+			} else {
+				console.log("no Agent objects given:", agent);
 			}
 		},
 

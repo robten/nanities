@@ -21,3 +21,8 @@ inspectMatrix(10,10);	// should be an invalid call..
 inspectMatrix(22,12);
 inspectMatrix(2,11);
 inspectMatrix(11,4);
+
+// Test addAgent()
+engine.addAgent("no Array");
+engine.addAgent(engine.cell(4,4));
+engine.addAgent([engine.cell(4,4), engine.cell(1,1)]);
