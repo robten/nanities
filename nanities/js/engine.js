@@ -1,26 +1,26 @@
 var engine = (function() {
 
-	var dim = {x: 0, y: 0};	// dimensions of the matrix
-	var matrix = new Array;	// data structure as a 2-dimensional array
+	var dimension = {x: 0, y: 0};	// dimensions of the model
+	var model = [];	// data structure as a 2-dimensional array
 	var isInit = false;
-	var agentList = new Array;			// list of added agent objects, processed in the event loop
+	var agentList = [];	// list of added agent objects, processed in the event loop
 
 	function isValid(x, y) {
-		if (isInit && x <= (dim.x -1) && y <= (dim.y -1))
+		if (isInit && x <= (dimension.x -1) && y <= (dimension.y -1))
 			return true;
 		else
 			return false;
-	}
+	};
 	
 	return {
 
 		init: function(width, height) {
-			dim.x = width;
-			dim.y = height;
-			for (var x=0;x<dim.x;x++) {
-				matrix[x] = new Array;
-				for (var y=0;y<dim.y;y++) {
-					matrix[x][y] = null;
+			dimension.x = width;
+			dimension.y = height;
+			for (var x=0;x<dimension.x;x++) {
+				model[x] = new Array;
+				for (var y=0;y<dimension.y;y++) {
+					model[x][y] = null;
 				}
 			}
 			isInit = true;
@@ -28,15 +28,15 @@ var engine = (function() {
 		},
 
 		modelDimensions: function() {
-			// A copy by value. returning dim directly would
+			// A copy by value. returning dimension directly would
 			// hand over a mutable reference of the private property
-			var dimCopy = {x: dim.x, y: dim.y};
-			return dimCopy;
+			var dimensionCopy = {x: dimension.x, y: dimension.y};
+			return dimensionCopy;
 		},
 
 		cell: function(x, y) {
-			if (isValid(x, y) ) {
-				return matrix[x][y];
+			if (isValid(x, y)) {
+				return model[x][y];
 			} else {
 				console.log("invalid index for ",x,",",y)
 				return false;
@@ -45,7 +45,7 @@ var engine = (function() {
 
 		setCell: function(x, y, content) {
 			if (isValid(x, y)) {
-				matrix[x][y] = content;
+				model[x][y] = content;
 				return true;
 			} else {
 				console.log("invalid index for ",x,",",y)
