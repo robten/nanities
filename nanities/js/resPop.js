@@ -1,4 +1,5 @@
-var resource = (function() {
+nanities.addComponent("resources");
+nanities.resources = (function() {
 	var fieldWidth = 100;
 	var fieldHeight = 100;
 	var startPosX = Math.floor(fieldWidth/2);	//abrunden
@@ -6,6 +7,7 @@ var resource = (function() {
 	var OUR_MAIN_PLAYGROUND_ARRAY;
 
 	return {
+		
 		initDeposits: function(	resourceType,	//Ressourcentyp - ID oder Name
 								radiusStart,	//innerer Kreisradius ("ab hier darf resource spawnen")
 								radiusStop,		//äußerer Kreisradius ("bis hier darf resource spawnen")
@@ -73,6 +75,6 @@ var resource = (function() {
 			*/
 		}
 	}
-}) ();
+} ());
 
-resource.initDeposits("iron", 0.1, 0.3, 20, 1, 5, 0.5);
+nanities.resources.initDeposits("iron", 0.1, 0.3, 20, 1, 5, 0.5);
