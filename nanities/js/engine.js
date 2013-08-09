@@ -1,4 +1,5 @@
-var engine = (function() {
+nanities.addComponent("engine");
+nanities.engine = (function() {
 
 	var dimension = {x: 0, y: 0};	// dimensions of the model
 	var model = [];	// data structure as a 2-dimensional array
@@ -56,12 +57,12 @@ var engine = (function() {
 		addAgent: function(agent) {
 			if (Object.prototype.toString.call(agent) === "[object Array]") {
 				for (var element of agent) {
-					if (element instanceof entities.Actor) {
+					if (element instanceof nanities.entities.Actor) {
 						agentList.push(element);
 						console.log("Agent added from Array:", element);
 					}
 				}
-			} else if (agent instanceof entities.Actor) {
+			} else if (agent instanceof nanities.entities.Actor) {
 				agentList.push(agent);
 				console.log("Agent added:", agent);
 			} else {
@@ -75,4 +76,4 @@ var engine = (function() {
 			// let's wait for events and respond to them.	
 		}
 	}
-}) ();
+} ());
