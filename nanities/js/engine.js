@@ -11,7 +11,7 @@ nanities.engine = (function() {
 			return true;
 		else
 			return false;
-	};
+	}
 	
 	return {
 
@@ -19,7 +19,7 @@ nanities.engine = (function() {
 			dimension.x = width;
 			dimension.y = height;
 			for (var x=0;x<dimension.x;x++) {
-				model[x] = new Array;
+				model[x] = [];
 				for (var y=0;y<dimension.y;y++) {
 					model[x][y] = null;
 				}
@@ -39,7 +39,7 @@ nanities.engine = (function() {
 			if (isValid(x, y)) {
 				return model[x][y];
 			} else {
-				console.log("invalid index for ",x,",",y)
+				console.log("invalid index for ",x,",",y);
 				return false;
 			}
 		},
@@ -49,14 +49,14 @@ nanities.engine = (function() {
 				model[x][y] = content;
 				return true;
 			} else {
-				console.log("invalid index for ",x,",",y)
+				console.log("invalid index for ",x,",",y);
 				return false;
 			}
 		},
 
 		addAgent: function(agent) {
 			if (Object.prototype.toString.call(agent) === "[object Array]") {
-				for (var element of agent) {
+				for (var element in agent) {
 					if (element instanceof nanities.entities.Actor) {
 						agentList.push(element);
 						console.log("Agent added from Array:", element);
@@ -75,5 +75,5 @@ nanities.engine = (function() {
 		exec: function() {
 			// let's wait for events and respond to them.	
 		}
-	}
-} ());
+	};
+}) ();
