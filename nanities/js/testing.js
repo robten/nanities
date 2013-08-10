@@ -1,6 +1,6 @@
 var tests = {
 
-	runTests: function(){
+	runTests: function() {
 		// Test if engine's dimensions are not mutable from outside
 		var copy = nanities.engine.modelDimensions();
 		console.log("copy dimensions:", copy);
@@ -40,9 +40,9 @@ var tests = {
 
 	inspectModel: function(x,y) {
 		var cell = nanities.engine.cell(x,y);
-		if ( !(cell === false) ) {
+		if (cell !== false) {
 			document.write("---------------<br />");
-			if (cell == null) {
+			if (cell === null) {
 				document.write(x,",",y, " is NULL<br />");
 			} else {
 				document.write(x,",",y, " is not NULL<br />");

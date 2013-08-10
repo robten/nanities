@@ -12,7 +12,7 @@ nanities.entities = {
 		this.type = type || "actor";
 		this.behaviourLoop = function behaviourLoop() {
 			// Input-Output for behaviour strategies
-		}
+		};
 	}
 
 };
