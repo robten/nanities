@@ -17,4 +17,4 @@ nanities.entities = {
 
 };
 
-nanities.nanities.entities.Actor.prototype = new nanities.nanities.entities.Entity();
+nanities.entities.Actor.prototype = new nanities.entities.Entity();
