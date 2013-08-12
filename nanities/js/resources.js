@@ -54,7 +54,7 @@ nanities.resources = (function () {
 					//bottom		= !!((deposit[randomDepositSelector][1]+randomNeighborY) > FieldWidth-1);
 					exist			= !!(matrix[(deposit[randomDepositSelector][0])+randomNeighborX][(deposit[randomDepositSelector][1])+randomNeighborY]=="*");//noch kein iron
 				}
-				while((randomNeighborX === 0) && (randomNeighborY === 0) || exist); //wenn zufallsnachbar nicht manselbst ist(0,0) und noch kein "*" gesetzt
+				while(exist); //wenn zufallsnachbar nicht manselbst ist(0,0) und noch kein "*" gesetzt
 				matrix[deposit[randomDepositSelector][0]+randomNeighborX][deposit[randomDepositSelector][1]+randomNeighborY] = "*";//setze iron
 				deposit.push([deposit[randomDepositSelector][0]+randomNeighborX,deposit[randomDepositSelector][1]+randomNeighborY]);//füge neues ironfeld in deposit
 			}
