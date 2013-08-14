@@ -21,7 +21,7 @@ nanities.engine = (function() {
 			for (var x=0;x<dimension.x;x++) {
 				model[x] = [];
 				for (var y=0;y<dimension.y;y++) {
-					model[x][y] = null;
+					model[x][y] = 0;
 				}
 			}
 			isInit = true;

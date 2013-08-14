@@ -1,5 +1,4 @@
 var tests = {
-
 	runTests: function() {
 		// Test if engine's dimensions are not mutable from outside
 		var copy = nanities.engine.modelDimensions();
@@ -60,5 +59,19 @@ var tests = {
 			return false;
 		}
 
+	},
+	
+	showFullMatrix: function (){
+		var blah = 0;
+		matrixSize = nanities.engine.modelDimensions();
+		for (var y=0;y<matrixSize.y;y++) {
+			for (var x=0;x<matrixSize.x;x++) {
+				if (!(blah%matrixSize.x)){
+					document.write('<br>');
+				}
+				document.write(nanities.engine.cell(x,y));
+				blah++
+			}
+		}
 	}
 };
