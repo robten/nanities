@@ -12,9 +12,9 @@ nanities.entities = {
 		this.type = type || "actor";
 		this.behaviourLoop = function behaviourLoop() {
 			// Input-Output for behaviour strategies
-		}
+		};
 	}
 
 };
 
-nanities.nanities.entities.Actor.prototype = new nanities.nanities.entities.Entity();
+nanities.entities.Actor.prototype = new nanities.entities.Entity();
