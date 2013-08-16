@@ -20,10 +20,14 @@ nanities.Model = function(width, height) {
 	return {
 
 		isValid: function(x, y) {
-			if (x <= (dimension.x -1) && y <= (dimension.y -1))
+			if (x <= (dimension.x -1) &&
+				x >= 0 &&
+				y <= (dimension.y -1) &&
+				y >= 0) {
 				return true;
-			else
+			} else {
 				return false;
+			}
 		},
 
 		dimensions: function() {
