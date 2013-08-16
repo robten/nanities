@@ -16,8 +16,8 @@ nanities.resources = (function () {
                     && (i<matrixSize.x) 
                     && (j>=0) 
                     && (j<matrixSize.y)) {
-                    if (nanities.engine.cell(i, j) == 0){
-                        nanities.engine.setCell(i, j, "x");
+                    if (nanities.engine.model.cell(i, j) == 0){
+                        nanities.engine.model.setCell(i, j, "x");
                     }
                     available.push([i, j]);
                 }
@@ -63,12 +63,12 @@ nanities.resources = (function () {
                         right = Boolean((depot[rndDepotSel][0] + rndNeighbX) > matrixSize.x-1);
                         bottom = Boolean((depot[rndDepotSel][1] + rndNeighbY) > matrixSize.y-1);
                     }while (left || topp || right || bottom);
-                    exist = !!(nanities.engine.cell((depot[rndDepotSel][0] + rndNeighbX), 
+                    exist = !!(nanities.engine.model.cell((depot[rndDepotSel][0] + rndNeighbX), 
                                                     (depot[rndDepotSel][1] + rndNeighbY))
                                                     == resource);
                     drop++;
                 }while (exist && drop < 20);
-                nanities.engine.setCell((depot[rndDepotSel][0] + rndNeighbX),
+                nanities.engine.model.setCell((depot[rndDepotSel][0] + rndNeighbX),
                                         (depot[rndDepotSel][1] + rndNeighbY), resource);
                 depot.push([depot[rndDepotSel][0] + rndNeighbX,
                             depot[rndDepotSel][1] + rndNeighbY]);
@@ -85,7 +85,7 @@ nanities.resources = (function () {
                              depotSizeMax,
                              offSet) {
             resource = resType;
-            matrixSize = nanities.engine.modelDimensions();
+            matrixSize = nanities.engine.model.dimensions();
             startPosX = Math.floor(matrixSize.x / 2);
             startPosY = Math.floor(matrixSize.y / 2);
             radiusMin = Math.floor(radiusStart * (matrixSize.x));
