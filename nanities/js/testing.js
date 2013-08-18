@@ -61,16 +61,17 @@ var tests = {
 
 	},
 	
-	showFullMatrix: function (){
+	showFullMatrix: function() {
 		var blah = 0;
-		matrixSize = nanities.engine.model.dimensions();
-		for (var y=0;y<matrixSize.y;y++) {
-			for (var x=0;x<matrixSize.x;x++) {
-				if (!(blah%matrixSize.x)){
+			model = nanities.engine.model();
+			matrixSize = model.dimensions();
+		for (var y=0; y<matrixSize.y; y++) {
+			for (var x=0; x<matrixSize.x; x++) {
+				if (!(blah%matrixSize.x)) {
 					document.write('<br>');
 				}
-				document.write(nanities.engine.model.cell(x,y));
-				blah++
+				document.write(model.cell(x,y));
+				blah++;
 			}
 		}
 	}

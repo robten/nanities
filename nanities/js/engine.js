@@ -1,11 +1,25 @@
 nanities.addComponent("engine");
 nanities.engine = (function() {
 
-	var agentList = [];	// list of added agent objects, processed in the event loop
+	var dataModel,
+		agentList = [];	// list of added agent objects, processed in the event loop
 	
 	return {
 
-		model: {},
+		setModel: function(model) {
+			if (model instanceof nanities.Model) {
+				dataModel = model;
+				console.log("dataModel set.");
+				return true;
+			} else {
+				console.log("failed to set dataModel (no Model given).");
+				return false;
+			}
+		},
+
+		model: function() {
+			return dataModel;
+		},
 
 		addAgent: function(agent) {
 			if (Object.prototype.toString.call(agent) === "[object Array]") {
