@@ -19,12 +19,33 @@ nanities.Model = function(width, height) {
 	}
 
 	this.isValid = function(x, y) {
-		if (x <= (dimension.x -1) &&
-			x >= 0 &&
-			y <= (dimension.y -1) &&
-			y >= 0) {
+		var xCoord, yCoord;
+		if (x.x && x.y) {
+			xCoord = x.x;
+			yCoord = x.y;
+		} else {
+			xCoord = x;
+			yCoord = y;
+		}
+
+		if (xCoord <= (dimension.x -1) &&
+			xCoord >= 0 &&
+			yCoord <= (dimension.y -1) &&
+			yCoord >= 0) {
 			return true;
 		} else {
+			return false;
+		}
+	};
+
+	this.isEqual = function(coord1, coord2) {
+		if (coord1.x && coord1.y && coord2.x && coord2.y) {
+			if ((coord1.x === coord2.x) && (coord1.y === coord2.y))
+				return true;
+			else
+				return false;
+		} else {
+			console.log("isEqual: parameters are no valid coordinats objects");
 			return false;
 		}
 	};
