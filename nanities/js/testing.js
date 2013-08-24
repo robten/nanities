@@ -1,16 +1,16 @@
 var tests = {
 	runTests: function() {
 		// Test if engine's dimensions are not mutable from outside
-		var copy = nanities.engine.modelDimensions();
+		var copy = nanities.engine.model.dimensions();
 		console.log("copy dimensions:", copy);
 		copy.x = 1;
 		copy.y = 2;
-		console.log("model dimensions after:", nanities.engine.modelDimensions() );
+		console.log("model dimensions after:", nanities.engine.model.dimensions() );
 		console.log("copy dimensions after:", copy);
 
 		// Test some cells:
-		nanities.engine.setCell(1,1, new nanities.entities.Entity(true));
-		nanities.engine.setCell(4,4, new nanities.entities.Actor("Otto", "opponent"));
+		nanities.engine.model.setCell(1,1, new nanities.entities.Entity(true));
+		nanities.engine.model.setCell(4,4, new nanities.entities.Actor("Otto", "opponent"));
 		this.inspectModel(0,0);
 		this.inspectModel(1,1);
 		this.inspectModel(4,4);
@@ -23,8 +23,8 @@ var tests = {
 
 		// Test addAgent()
 		nanities.engine.addAgent("no Array");
-		nanities.engine.addAgent(nanities.engine.cell(4,4));
-		nanities.engine.addAgent([nanities.engine.cell(4,4), nanities.engine.cell(1,1)]);
+		nanities.engine.addAgent(nanities.engine.model.cell(4,4));
+		nanities.engine.addAgent([nanities.engine.model.cell(4,4), nanities.engine.model.cell(1,1)]);
 
 		// Test nanities dynamic namespacing through addComponent()
 		nanities.addComponent("test");
@@ -38,7 +38,7 @@ var tests = {
 	},
 
 	inspectModel: function(x,y) {
-		var cell = nanities.engine.cell(x,y);
+		var cell = nanities.engine.model.cell(x,y);
 		if (cell !== false) {
 			document.write("---------------<br />");
 			if (cell === null) {
@@ -61,16 +61,17 @@ var tests = {
 
 	},
 	
-	showFullMatrix: function (){
+	showFullMatrix: function() {
 		var blah = 0;
-		matrixSize = nanities.engine.modelDimensions();
-		for (var y=0;y<matrixSize.y;y++) {
-			for (var x=0;x<matrixSize.x;x++) {
-				if (!(blah%matrixSize.x)){
+			model = nanities.engine.model();
+			matrixSize = model.dimensions();
+		for (var y=0; y<matrixSize.y; y++) {
+			for (var x=0; x<matrixSize.x; x++) {
+				if (!(blah%matrixSize.x)) {
 					document.write('<br>');
 				}
-				document.write(nanities.engine.cell(x,y));
-				blah++
+				document.write(model.cell(x,y));
+				blah++;
 			}
 		}
 	}
