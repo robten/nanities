@@ -4,6 +4,14 @@ nanities.View = function(canvasId) {
 	var canvas, context, model,
 		grid = {};
 
+	// graphics for tiles (need a better position to have them loaded before use):
+	var gras = new Image(),
+		res1 = new Image(),
+		res2 = new Image();
+	gras.src = "assets/tiles/gras.png";
+	res1.src = "assets/tiles/res1.png";
+	res2.src = "assets/tiles/res2.png";
+
 	function paintGrid() {
 		var modelDim;
 
@@ -41,6 +49,14 @@ nanities.View = function(canvasId) {
 		return true;
 	}
 
+	function paintCell(coords, content) {
+		context.drawImage(content,
+			(coords.x * grid.cellWidth + 1),
+			(coords.y * grid.cellHeight + 1),
+			(grid.cellWidth - 2),
+			(grid.cellHeight - 2));
+	}
+
 	this.updateView = function(cells) {
 		if (!model) {
 			console.log("View: ERROR: trying to paint without a valid Model.");
@@ -48,7 +64,29 @@ nanities.View = function(canvasId) {
 		}
 		if (!grid.painted)
 			paintGrid();
-		// update painting of each cell in cells; if cells is undefined, update the entire model 
+		// update painting of each cell in cells; if cells is undefined, update the entire model
+		var dims = model.dimensions(),
+			content;
+		//	if cells is not given: paint the entire model
+		if (!cells) {
+			for (var x = 0; x < dims.x; x++) {
+				for (var y = 0; y < dims.y; y++) {
+					content = model.cell(x, y);
+
+					switch(content) {
+						case 0:
+							paintCell({x: x, y:y}, gras);
+							break;
+						case "x":
+							paintCell({x: x, y:y}, res1);
+							break;
+						case "*":
+							paintCell({x: x, y:y}, res2);
+							break;
+					}
+				}
+			}
+		}
 	};
 
 	this.setCanvasId = function(id) {
