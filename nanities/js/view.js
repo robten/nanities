@@ -2,7 +2,8 @@ nanities.addComponent("View");
 nanities.View = function(canvasId) {
 
 	var canvas, context, model,
-		grid = {};
+		grid = {},
+		that = this;
 
 	// graphics for tiles (need a better position to have them loaded before use):
 	var gras = new Image(),
@@ -86,6 +87,8 @@ nanities.View = function(canvasId) {
 					}
 				}
 			}
+			console.log("updateView(): updated all cells.");
+			return true;
 		}
 	};
 
@@ -113,8 +116,10 @@ nanities.View = function(canvasId) {
 			if (grid.painted)
 				grid.painted = false;	// to let updateView() repaint the entire grid (and drop the old one)
 			model = modelObj;
-			this.updateView();
-			console.log("View.setModel(): model set. View updated.", modelObj);
+			gras.onload = function() {
+				that.updateView();
+			};
+			console.log("View.setModel(): model set.", modelObj);
 			return true;
 		} else {
 			console.log("View.setModel(): ERROR: no valid Model Object given.", modelObj);
