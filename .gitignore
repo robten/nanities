@@ -1,3 +1,6 @@
 *.sublime-*
 *.settings
 .htaccess
+*.tps
+*.xcf
+*.json

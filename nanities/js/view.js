@@ -6,12 +6,38 @@ nanities.View = function(canvasId) {
 		that = this;
 
 	// graphics for tiles (need a better position to have them loaded before use):
-	var gras = new Image(),
-		res1 = new Image(),
-		res2 = new Image();
-	gras.src = "assets/tiles/gras.png";
-	res1.src = "assets/tiles/res1.png";
-	res2.src = "assets/tiles/res2.png";
+	var sprite = new Image();
+	sprite.frames = {
+			gras: {
+				"frame": {"x":2,"y":2,"w":20,"h":20},
+				"rotated": false,
+				"trimmed": false,
+				"spriteSourceSize": {"x":0,"y":0,"w":20,"h":20},
+				"sourceSize": {"w":20,"h":20}
+			},
+			res1: {
+				"frame": {"x":24,"y":2,"w":20,"h":20},
+				"rotated": false,
+				"trimmed": false,
+				"spriteSourceSize": {"x":0,"y":0,"w":20,"h":20},
+				"sourceSize": {"w":20,"h":20}
+			},
+			res2: {
+				"frame": {"x":46,"y":2,"w":20,"h":20},
+				"rotated": false,
+				"trimmed": false,
+				"spriteSourceSize": {"x":0,"y":0,"w":20,"h":20},
+				"sourceSize": {"w":20,"h":20}
+			}
+	};
+	sprite.meta = {
+			"image": "testing.png",
+			"size": {"w":68,"h":28},
+			"scale": "1"
+	};
+	sprite.loaded = false;
+	sprite.src = "assets/tilesets/" + sprite.meta.image;
+	console.log("src tag:", sprite.src, sprite.meta.size);
 
 	function paintGrid() {
 		var modelDim;
@@ -50,8 +76,9 @@ nanities.View = function(canvasId) {
 		return true;
 	}
 
-	function paintCell(coords, content) {
-		context.drawImage(content,
+	function paintCell(coords, tile) {
+		context.drawImage(sprite,
+			tile.frame.x, tile.frame.y, tile.frame.w, tile.frame.h,
 			(coords.x * grid.cellWidth + 1),
 			(coords.y * grid.cellHeight + 1),
 			(grid.cellWidth - 2),
@@ -65,6 +92,16 @@ nanities.View = function(canvasId) {
 		}
 		if (!grid.painted)
 			paintGrid();
+		// If sprite Image is not loaded yet, return false and recall this function on sprite.onload:
+		if (!sprite.loaded) {
+			sprite.onload = function() {
+				this.loaded = true;
+				console.log("sprite.onload: loaded:", this.loaded);
+				that.updateView(cells);
+			};
+			return false;
+		}
+
 		// update painting of each cell in cells; if cells is undefined, update the entire model
 		var dims = model.dimensions(),
 			content;
@@ -76,13 +113,13 @@ nanities.View = function(canvasId) {
 
 					switch(content) {
 						case 0:
-							paintCell({x: x, y:y}, gras);
+							paintCell({x: x, y: y}, sprite.frames.gras);
 							break;
 						case "x":
-							paintCell({x: x, y:y}, res1);
+							paintCell({x: x, y: y}, sprite.frames.res1);
 							break;
 						case "*":
-							paintCell({x: x, y:y}, res2);
+							paintCell({x: x, y: y}, sprite.frames.res2);
 							break;
 					}
 				}
@@ -116,9 +153,7 @@ nanities.View = function(canvasId) {
 			if (grid.painted)
 				grid.painted = false;	// to let updateView() repaint the entire grid (and drop the old one)
 			model = modelObj;
-			gras.onload = function() {
-				that.updateView();
-			};
+			this.updateView();
 			console.log("View.setModel(): model set.", modelObj);
 			return true;
 		} else {
