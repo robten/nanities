@@ -3,41 +3,44 @@ nanities.View = function(canvasId) {
 
 	var canvas, context, model,
 		grid = {},
+		paintEventStack = [],
 		that = this;
+	grid.show = false;
 
-	// graphics for tiles (need a better position to have them loaded before use):
+	// Tiles graphics in a spritesheet:
 	var sprite = new Image();
 	sprite.frames = {
-			gras: {
-				"frame": {"x":2,"y":2,"w":20,"h":20},
-				"rotated": false,
-				"trimmed": false,
-				"spriteSourceSize": {"x":0,"y":0,"w":20,"h":20},
-				"sourceSize": {"w":20,"h":20}
-			},
-			res1: {
-				"frame": {"x":24,"y":2,"w":20,"h":20},
-				"rotated": false,
-				"trimmed": false,
-				"spriteSourceSize": {"x":0,"y":0,"w":20,"h":20},
-				"sourceSize": {"w":20,"h":20}
-			},
-			res2: {
-				"frame": {"x":46,"y":2,"w":20,"h":20},
-				"rotated": false,
-				"trimmed": false,
-				"spriteSourceSize": {"x":0,"y":0,"w":20,"h":20},
-				"sourceSize": {"w":20,"h":20}
-			}
+		gras: {
+			"frame": {"x":2,"y":2,"w":20,"h":20},
+			"rotated": false,
+			"trimmed": false,
+		},
+		res1: {
+			"frame": {"x":24,"y":2,"w":20,"h":20},
+			"rotated": false,
+			"trimmed": false,
+		},
+		res2: {
+			"frame": {"x":46,"y":2,"w":20,"h":20},
+			"rotated": false,
+			"trimmed": false,
+		}
 	};
 	sprite.meta = {
-			"image": "testing.png",
-			"size": {"w":68,"h":28},
-			"scale": "1"
+		"image": "testing.png",
+		"size": {"w":68,"h":28},
+		"scale": "1"
 	};
 	sprite.loaded = false;
 	sprite.src = "assets/tilesets/" + sprite.meta.image;
-	console.log("src tag:", sprite.src, sprite.meta.size);
+	sprite.onload = function() {
+		this.loaded = true;
+		paintEventStack.forEach(function(entry, index) {
+			that.updateView(entry);
+			console.log("paintEventStack Index#", index, ": ",entry, "done.");
+		});
+		paintEventStack.clear();
+	};
 
 	function paintGrid() {
 		var modelDim;
@@ -49,84 +52,96 @@ nanities.View = function(canvasId) {
 			modelDim = model.dimensions();
 		}
 
-		// getting the size of each cell to paint
-		grid["cellWidth"] = Math.floor(canvas.width / modelDim.x);
-		grid["cellHeight"] = Math.floor(canvas.height / modelDim.y);
-		console.log("grid: cell width & height:", grid.cellWidth, ",", grid.cellHeight);
-
 		// painting a grid to the canvas context. (should be done in transformation matrix?)
-		context.clearRect(0, 0, canvas.width, canvas.height);
-		var width = grid.cellWidth,
-			height = grid.cellHeight;
-		for (var i = 1; i < modelDim.x; i++) {
+		//context.clearRect(0, 0, canvas.width, canvas.height);
+		var width = 0,
+			height = 0;
+		context.strokeStyle = "#303030";
+		for (var i = 1; i < modelDim.x + 2; i++) {
 			context.beginPath();
 			context.moveTo(width, 0);
 			context.lineTo(width, canvas.height);
+			context.closePath();
 			context.stroke();
 			width += grid.cellWidth;
 		}
-		for (i = 1; i < modelDim.y; i++) {
+		for (i = 1; i < modelDim.y + 2; i++) {
 			context.beginPath();
 			context.moveTo(0, height);
 			context.lineTo(canvas.width, height);
+			context.closePath();
 			context.stroke();
 			height += grid.cellHeight;
 		}
-		grid["painted"] = true;	// set true to skip future repainting of the grid in updateView()
+		grid.painted = true;	// set true to skip future repainting of the grid in updateView()
 		return true;
+	}
+
+	function filterPaintCell(coord, content) {
+		switch(content) {
+			case 0:
+				paintCell(coord, sprite.frames.gras);
+				break;
+			case "x":
+				paintCell(coord, sprite.frames.res1);
+				break;
+			case "*":
+				paintCell(coord, sprite.frames.res2);
+				break;
+		}
 	}
 
 	function paintCell(coords, tile) {
 		context.drawImage(sprite,
 			tile.frame.x, tile.frame.y, tile.frame.w, tile.frame.h,
-			(coords.x * grid.cellWidth + 1),
-			(coords.y * grid.cellHeight + 1),
-			(grid.cellWidth - 2),
-			(grid.cellHeight - 2));
+			(coords.x * grid.cellWidth),
+			(coords.y * grid.cellHeight),
+			(grid.cellWidth),
+			(grid.cellHeight));
 	}
 
 	this.updateView = function(cells) {
+		console.log("updateView() called with cells=", cells, "and sprite.loaded=", sprite.loaded);
 		if (!model) {
 			console.log("View: ERROR: trying to paint without a valid Model.");
 			return false;
 		}
-		if (!grid.painted)
-			paintGrid();
 		// If sprite Image is not loaded yet, return false and recall this function on sprite.onload:
 		if (!sprite.loaded) {
-			sprite.onload = function() {
-				this.loaded = true;
-				console.log("sprite.onload: loaded:", this.loaded);
-				that.updateView(cells);
-			};
+			paintEventStack.push(cells);
 			return false;
 		}
 
-		// update painting of each cell in cells; if cells is undefined, update the entire model
+		// Update painting of each cell in cells; if cells is undefined, update the entire model
 		var dims = model.dimensions(),
 			content;
-		//	if cells is not given: paint the entire model
+		//	If cells is not given: repaint the entire model
 		if (!cells) {
 			for (var x = 0; x < dims.x; x++) {
 				for (var y = 0; y < dims.y; y++) {
 					content = model.cell(x, y);
-
-					switch(content) {
-						case 0:
-							paintCell({x: x, y: y}, sprite.frames.gras);
-							break;
-						case "x":
-							paintCell({x: x, y: y}, sprite.frames.res1);
-							break;
-						case "*":
-							paintCell({x: x, y: y}, sprite.frames.res2);
-							break;
-					}
+					filterPaintCell({x: x, y: y}, content);
 				}
 			}
 			console.log("updateView(): updated all cells.");
-			return true;
 		}
+		// If only a single coordinats object is given: only repaint that cell
+		else if (cells.x && cells.y) {
+			content = model.cell(cells.x, cells.y);
+			filterPaintCell(cells, content);
+			console.log("updateView(): updated a single cell:", cells);
+		}
+		// If an Array of coords is given: update only those
+		else if (Object.prototype.toString.call(cells) === "[object Array]") {
+			cells.forEach(function(element) {
+				content = model.cell(element.x, element.y);
+				filterPaintCell({x: element.x, y: element.y}, content);
+			});
+			console.log("updateView(): updated a list of cells:", cells);
+		}
+		if (!grid.painted && grid.show)
+			paintGrid();
+		return true;
 	};
 
 	this.setCanvasId = function(id) {
@@ -153,6 +168,11 @@ nanities.View = function(canvasId) {
 			if (grid.painted)
 				grid.painted = false;	// to let updateView() repaint the entire grid (and drop the old one)
 			model = modelObj;
+			// getting the size of each cell to paint
+			modelDim = model.dimensions();
+			grid.cellWidth = Math.floor(canvas.width / modelDim.x);
+			grid.cellHeight = Math.floor(canvas.height / modelDim.y);
+			console.log("grid: cell width & height:", grid.cellWidth, ",", grid.cellHeight);
 			this.updateView();
 			console.log("View.setModel(): model set.", modelObj);
 			return true;
@@ -160,6 +180,10 @@ nanities.View = function(canvasId) {
 			console.log("View.setModel(): ERROR: no valid Model Object given.", modelObj);
 			return false;
 		}
+	};
+
+	this.setShowGrid = function(state) {
+		grid.show = Boolean(state);
 	};
 
 	// part of the constructor; Initialization of the View
