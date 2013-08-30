@@ -4,3 +4,15 @@ var testView = new nanities.View("canvas1");
 testView.setModel(nanities.engine.model());
 testView.setShowGrid(true);
 //tests.showFullMatrix();
+
+var gridToggleButton = document.getElementById("gridToggle");
+var toggle = true;
+gridToggleButton.onclick = function() {
+	toggle = !toggle;
+	testView.setShowGrid(toggle);
+	testView.updateView();
+	if (toggle)
+		gridToggleButton.innerHTML = "Grid OFF";
+	else
+		gridToggleButton.innerHTML = "Grid ON";
+};

@@ -1,3 +1,7 @@
+button {
+	vertical-align: top
+}
+
 canvas {
 	background-color: #ddd;
 	border: 2px solid black

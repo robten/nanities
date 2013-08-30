@@ -53,7 +53,6 @@ nanities.View = function(canvasId) {
 		}
 
 		// painting a grid to the canvas context. (should be done in transformation matrix?)
-		//context.clearRect(0, 0, canvas.width, canvas.height);
 		var width = 0,
 			height = 0;
 		context.strokeStyle = "#303030";
@@ -73,7 +72,6 @@ nanities.View = function(canvasId) {
 			context.stroke();
 			height += grid.cellHeight;
 		}
-		grid.painted = true;	// set true to skip future repainting of the grid in updateView()
 		return true;
 	}
 
@@ -117,6 +115,7 @@ nanities.View = function(canvasId) {
 			content;
 		//	If cells is not given: repaint the entire model
 		if (!cells) {
+			context.clearRect(0, 0, canvas.width, canvas.height);
 			for (var x = 0; x < dims.x; x++) {
 				for (var y = 0; y < dims.y; y++) {
 					content = model.cell(x, y);
@@ -139,7 +138,7 @@ nanities.View = function(canvasId) {
 			});
 			console.log("updateView(): updated a list of cells:", cells);
 		}
-		if (!grid.painted && grid.show)
+		if (grid.show)
 			paintGrid();
 		return true;
 	};
@@ -165,8 +164,6 @@ nanities.View = function(canvasId) {
 
 	this.setModel = function(modelObj) {
 		if (modelObj instanceof nanities.Model) {
-			if (grid.painted)
-				grid.painted = false;	// to let updateView() repaint the entire grid (and drop the old one)
 			model = modelObj;
 			// getting the size of each cell to paint
 			modelDim = model.dimensions();
