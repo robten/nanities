@@ -20,7 +20,7 @@ nanities.tools = (function () {
         },
         
         //returns integer distance between 2 fields by only moving horizontally and vertically
-        manhattenDist: function(x1, y1, x2, y2) {
+        manhDist: function(x1, y1, x2, y2) {
             initModel();
             if (model.isValid(x1, y1) && model.isValid(x2, y2)) {
                 return Math.abs(x1 - x2) + Math.abs(y1 - y2);
@@ -31,7 +31,7 @@ nanities.tools = (function () {
         },
         
         //returns array of 4 or 8 neighbours of a field depending on bool value (true -> 8)
-        getNeighbours: function(x, y, bool) {
+        getNeighb: function(x, y, bool) {
             initModel();
             var possNeighbours =[];
             var neighbours = [];

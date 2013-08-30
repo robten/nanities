@@ -17,7 +17,7 @@ nanities.resources = (function () {
                     && (j>=0) 
                     && (j<matrixSize.y)) {
                     if (model.cell(i, j) == 0){
-                        model.setCell(i, j, "x");
+                        model.setCell(i, j, 0);
                     }
                     available.push([i, j]);
                 }
