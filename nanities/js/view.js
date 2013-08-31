@@ -125,7 +125,7 @@ nanities.View = function(canvasId) {
 			console.log("updateView(): updated all cells.");
 		}
 		// If only a single coordinats object is given: only repaint that cell
-		else if (cells.x && cells.y) {
+		else if (cells.hasOwnProperty("x") && cells.hasOwnProperty("y")) {
 			content = model.cell(cells.x, cells.y);
 			filterPaintCell(cells, content);
 			console.log("updateView(): updated a single cell:", cells);

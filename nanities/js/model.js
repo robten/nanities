@@ -39,7 +39,8 @@ nanities.Model = function(width, height) {
 	};
 
 	this.isEqual = function(coord1, coord2) {
-		if (coord1.x && coord1.y && coord2.x && coord2.y) {
+		if (coord1.hasOwnProperty("x") && coord1.hasOwnProperty("y") &&
+			coord2.hasOwnPropery("x") && coord2.hasOwnPropery("y")) {
 			if ((coord1.x === coord2.x) && (coord1.y === coord2.y))
 				return true;
 			else
